@@ -1367,6 +1367,7 @@ contract SecondNft is ERC721, Ownable {
         addressByFirstNft[supply] = firstTokenId;
         // 给版税 先注释
         //_dealRoyalties(firstTokenId);
+        _tokenURIs[supply] = uri;
         return supply;
     }
     // 交易 判断tokenid是否设置允许交易
