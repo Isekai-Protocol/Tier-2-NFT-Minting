@@ -1262,7 +1262,7 @@ contract SecondNft is ERC721, Ownable {
         string uri;
     }
 
-    // 初始化
+    // 初始化 盲盒相关 先注释
     constructor(
         string memory _name,
         string memory _symbol,
@@ -1270,9 +1270,9 @@ contract SecondNft is ERC721, Ownable {
         string memory _initNotRevealedUri
     ) ERC721(_name, _symbol) {
         // 盲盒bsae url
-        setBaseURI(_initBaseURI);
+        //setBaseURI(_initBaseURI);
         // 盲盒未开盒的url
-        setNotRevealedURI(_initNotRevealedUri);
+        //setNotRevealedURI(_initNotRevealedUri);
     }
 
     //    // internal  盲盒地址图片 前缀
@@ -1365,8 +1365,8 @@ contract SecondNft is ERC721, Ownable {
         _tokenIds.increment();
         //记录该nft基于的1级nft tokenid
         addressByFirstNft[supply] = firstTokenId;
-        // 给版税
-        _dealRoyalties(firstTokenId);
+        // 给版税 先注释
+        //_dealRoyalties(firstTokenId);
         return supply;
     }
     // 交易 判断tokenid是否设置允许交易
@@ -1379,10 +1379,12 @@ contract SecondNft is ERC721, Ownable {
         require(msg.value >= isSale[tokenId], "token is not enough");
         isSale[tokenId] = 0;
         safeTransferFrom(from, to, tokenId, "");
-        //给1级nft创建者和拥有者的版税
-        _dealRoyalties(tokenId);
-        //给2级nft卖家的币 扣除1%
-        royaltiesFirstNft[from] = royaltiesFirstNft[from] + msg.value * (100 - mintCreateRoyalties - mintOwnRoyalties) / 100;
+        //给1级nft创建者和拥有者的版税 显注释
+        //_dealRoyalties(tokenId);
+        //给2级nft卖家的币 扣除1% 先注释
+        //royaltiesFirstNft[from] = royaltiesFirstNft[from] + msg.value * (100 - mintCreateRoyalties - mintOwnRoyalties) / 100;
+        //给2级nft卖家的币 平台扣除1%
+        royaltiesFirstNft[from] = royaltiesFirstNft[from] + msg.value * (100 - 1) / 100;
 
     }
     // 设置tokenid的状态 为 可以出售
@@ -1400,7 +1402,7 @@ contract SecondNft is ERC721, Ownable {
         isSale[tokenId] = 0;
     }
 
-    // 版税操作
+    // 版税操作 未启用
     function _dealRoyalties(uint256 tokenId) private{
         address createAddress = MYIERC721(firstContractAddress).getTokenCreateAddress(tokenId);
         address ownAddress = MYIERC721(firstContractAddress).owner(tokenId);
@@ -1408,13 +1410,13 @@ contract SecondNft is ERC721, Ownable {
         royaltiesFirstNft[createAddress] = royaltiesFirstNft[createAddress] + msg.value * mintOwnRoyalties / 100;
     }
 
-    // 提取
-    function withdraw() public payable onlyOwner {
-        // 5%
-        address to;
-        (bool hs, ) = payable(to).call{value: address(this).balance * 5 / 100}("");
-        require(hs);
-        (bool os, ) = payable(to).call{value: address(this).balance}("");
-        require(os);
-    }
+    // 提取 先注释
+//    function withdraw() public payable onlyOwner {
+//        // 5%
+//        address to;
+//        (bool hs, ) = payable(to).call{value: address(this).balance * 5 / 100}("");
+//        require(hs);
+//        (bool os, ) = payable(to).call{value: address(this).balance}("");
+//        require(os);
+//    }
 }
