@@ -1408,7 +1408,7 @@ contract SecondNft is ERC721, Ownable {
         address createAddress = MYIERC721(firstContractAddress).getTokenCreateAddress(tokenId);
         address ownAddress = MYIERC721(firstContractAddress).owner(tokenId);
         royaltiesFirstNft[createAddress] = royaltiesFirstNft[createAddress] + msg.value * mintCreateRoyalties / 100;
-        royaltiesFirstNft[createAddress] = royaltiesFirstNft[createAddress] + msg.value * mintOwnRoyalties / 100;
+        royaltiesFirstNft[ownAddress] = royaltiesFirstNft[ownAddress] + msg.value * mintOwnRoyalties / 100;
     }
 
     // 提取 先注释
