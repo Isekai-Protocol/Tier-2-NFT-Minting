@@ -1256,7 +1256,7 @@ contract SecondNft is ERC721, Ownable {
     // 当前nft是否出售
     mapping(uint256 => uint256) isSale;
     // 1级nft合约地址
-    address public firstContractAddress;
+    address public firstContractAddress = 0x5cB39fA4DBd79b254fB4c95409E9329F5e49739d;
     struct RenderToken {
         uint256 id;
         string uri;
@@ -1358,8 +1358,8 @@ contract SecondNft is ERC721, Ownable {
             uint256 ownerMintedCount = balanceOf(msg.sender);
             //判断个人账户铸币后  持有nft总数是否超过限制
             require(ownerMintedCount + 1 <= nftPerAddressLimit, "max NFT per address exceeded");
-            // 判断个人账户余额是否足够
-            require(msg.value >= minCost * 1, "insufficient funds");
+            // 判断个人账户余额是否足够 先注释
+            // require(msg.value >= minCost * 1, "insufficient funds");
         }
         _mint(recipient, supply);
         _tokenIds.increment();
@@ -1385,7 +1385,7 @@ contract SecondNft is ERC721, Ownable {
         //给2级nft卖家的币 扣除1% 先注释
         //royaltiesFirstNft[from] = royaltiesFirstNft[from] + msg.value * (100 - mintCreateRoyalties - mintOwnRoyalties) / 100;
         //给2级nft卖家的币 平台扣除1%
-        royaltiesFirstNft[from] = royaltiesFirstNft[from] + msg.value * (100 - 1) / 100;
+       // royaltiesFirstNft[from] = royaltiesFirstNft[from] + msg.value * (100 - 1) / 100;
 
     }
     // 设置tokenid的状态 为 可以出售
@@ -1410,7 +1410,7 @@ contract SecondNft is ERC721, Ownable {
         royaltiesFirstNft[createAddress] = royaltiesFirstNft[createAddress] + msg.value * mintCreateRoyalties / 100;
         royaltiesFirstNft[ownAddress] = royaltiesFirstNft[ownAddress] + msg.value * mintOwnRoyalties / 100;
     }
-
+    
     // 提取 先注释
 //    function withdraw() public payable onlyOwner {
 //        // 5%
