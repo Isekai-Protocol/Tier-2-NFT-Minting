@@ -1,45 +1,26 @@
 /**
- *Submitted for verification at polygonscan.com on 2021-12-05
+ *Submitted for verification at polygonscan.com on 2022-09-22
 */
 
+/**
+ *Submitted for verification at Etherscan.io on 2022-08-05
+*/
 // SPDX-License-Identifier: MIT
 // File: @openzeppelin/contracts/utils/Counters.sol
-
-
-// OpenZeppelin Contracts v4.4.0 (utils/Counters.sol)
-
 pragma solidity ^0.8.0;
 
-/**
- * @title Counters
- * @author Matt Condon (@shrugs)
- * @dev Provides counters that can only be incremented, decremented or reset. This can be used e.g. to track the number
- * of elements in a mapping, issuing ERC721 ids, or counting request ids.
- * 提供只能递增、递减或重置的计数器。 这可以用于跟踪映射中的元素数量，发出ERC721 id，或者计算请求id。
- * Include with `using Counters for Counters.Counter;`
- */
-// 计数器
 library Counters {
-    //初始化 默认从0开始
     struct Counter {
-        // This variable should never be directly accessed by users of the library: interactions must be restricted to
-        // the library's function. As of Solidity v0.5.2, this cannot be enforced, though there is a proposal to add
-        // this feature: see https://github.com/ethereum/solidity/issues/4637
-        //这个变量不应该被库的用户直接访问:交互必须限制在库的函数中。 在Solidity v0.5.2版本中，这是不能强制执行的，
-        //尽管有建议添加此特性:参见https://github.com/ethereum/solidity/issues/4637
         uint256 _value; // default: 0
     }
-    // 获取当前的值
     function current(Counter storage counter) internal view returns (uint256) {
         return counter._value;
     }
-    // 计数器自增1
     function increment(Counter storage counter) internal {
     unchecked {
         counter._value += 1;
     }
     }
-    // 计数器减一 需要当前值大于0
     function decrement(Counter storage counter) internal {
         uint256 value = counter._value;
         require(value > 0, "Counter: decrement overflow");
@@ -47,90 +28,10 @@ library Counters {
         counter._value = value - 1;
     }
     }
-    // 重置计数器为0
     function reset(Counter storage counter) internal {
         counter._value = 0;
     }
 }
-
-// File: @openzeppelin/contracts/utils/Strings.sol
-
-
-// OpenZeppelin Contracts v4.4.0 (utils/Strings.sol)
-
-pragma solidity ^0.8.0;
-
-/**
- * @dev String operations.
- */
-// OpenZeppelin上的string处理工具
-library Strings {
-    bytes16 private constant _HEX_SYMBOLS = "0123456789abcdef";
-
-    /**
-     * @dev Converts a `uint256` to its ASCII `string` decimal representation.
-     */
-    // uint256 to ASCII `string` 结果为10进制
-    function toString(uint256 value) internal pure returns (string memory) {
-        // Inspired by OraclizeAPI's implementation - MIT licence
-        // https://github.com/oraclize/ethereum-api/blob/b42146b063c7d6ee1358846c198246239e9360e8/oraclizeAPI_0.4.25.sol
-
-        if (value == 0) {
-            return "0";
-        }
-        uint256 temp = value;
-        uint256 digits;
-        while (temp != 0) {
-            digits++;
-            temp /= 10;
-        }
-        //创建一个相同数位大小的bytes字符数组
-        bytes memory buffer = new bytes(digits);
-        //循环，倒序保存字符到字符空间buffer
-        //bytes1(uint8(48 + temp % 10))  EG：value 是52的话，结果是0x32 十六进制
-        while (value != 0) {
-            digits -= 1;
-            buffer[digits] = bytes1(uint8(48 + uint256(value % 10)));
-            value /= 10;
-        }
-        return string(buffer);
-    }
-
-    /**
-     * @dev Converts a `uint256` to its ASCII `string` hexadecimal representation.
-     */
-    //同上 结果为16进制
-    function toHexString(uint256 value) internal pure returns (string memory) {
-        if (value == 0) {
-            return "0x00";
-        }
-        uint256 temp = value;
-        uint256 length = 0;
-        while (temp != 0) {
-            length++;
-            temp >>= 8;
-        }
-        return toHexString(value, length);
-    }
-
-    /**
-     * @dev Converts a `uint256` to its ASCII `string` hexadecimal representation with fixed length.
-     */
-    // 固定程度16进制
-    function toHexString(uint256 value, uint256 length) internal pure returns (string memory) {
-        bytes memory buffer = new bytes(2 * length + 2);
-        buffer[0] = "0";
-        buffer[1] = "x";
-        for (uint256 i = 2 * length + 1; i > 1; --i) {
-            buffer[i] = _HEX_SYMBOLS[value & 0xf];
-            value >>= 4;
-        }
-        require(value == 0, "Strings: hex length insufficient");
-        return string(buffer);
-    }
-}
-
-// File: @openzeppelin/contracts/utils/Context.sol
 
 
 // OpenZeppelin Contracts v4.4.0 (utils/Context.sol)
@@ -147,7 +48,6 @@ pragma solidity ^0.8.0;
  *
  * This contract is only required for intermediate, library-like contracts.
  */
-//　抽象合约，上下文；主要对 msg对象做一些封装；例如： msg.Sender代表当前调用合约的用户
 abstract contract Context {
     function _msgSender() internal view virtual returns (address) {
         return msg.sender;
@@ -178,7 +78,6 @@ pragma solidity ^0.8.0;
  * `onlyOwner`, which can be applied to your functions to restrict their use to
  * the owner.
  */
-// 合约相关功能
 abstract contract Ownable is Context {
     address private _owner;
 
@@ -187,7 +86,6 @@ abstract contract Ownable is Context {
     /**
      * @dev Initializes the contract setting the deployer as the initial owner.
      */
-    // 初始化 合约 创建者
     constructor() {
         _transferOwnership(_msgSender());
     }
@@ -195,7 +93,6 @@ abstract contract Ownable is Context {
     /**
      * @dev Returns the address of the current owner.
      */
-    // 返回合约拥有者
     function owner() public view virtual returns (address) {
         return _owner;
     }
@@ -203,7 +100,6 @@ abstract contract Ownable is Context {
     /**
      * @dev Throws if called by any account other than the owner.
      */
-    // 函数修饰符 判断是否为合约拥有者
     modifier onlyOwner() {
         require(owner() == _msgSender(), "Ownable: caller is not the owner");
         _;
@@ -216,7 +112,6 @@ abstract contract Ownable is Context {
      * NOTE: Renouncing ownership will leave the contract without an owner,
      * thereby removing any functionality that is only available to the owner.
      */
-    //放弃 权限 到0x0000000000000000000000000000000000000000
     function renounceOwnership() public virtual onlyOwner {
         _transferOwnership(address(0));
     }
@@ -225,7 +120,6 @@ abstract contract Ownable is Context {
      * @dev Transfers ownership of the contract to a new account (`newOwner`).
      * Can only be called by the current owner.
      */
-    //转移权限到新地址
     function transferOwnership(address newOwner) public virtual onlyOwner {
         require(newOwner != address(0), "Ownable: new owner is the zero address");
         _transferOwnership(newOwner);
@@ -235,7 +129,6 @@ abstract contract Ownable is Context {
      * @dev Transfers ownership of the contract to a new account (`newOwner`).
      * Internal function without access restriction.
      */
-    // 转移合同所有权
     function _transferOwnership(address newOwner) internal virtual {
         address oldOwner = _owner;
         _owner = newOwner;
@@ -253,7 +146,6 @@ pragma solidity ^0.8.0;
 /**
  * @dev Collection of functions related to the address type
  */
-// 地址处理工具
 library Address {
     /**
      * @dev Returns true if `account` is a contract.
@@ -272,7 +164,6 @@ library Address {
      *  - an address where a contract lived, but was destroyed
      * ====
      */
-    // 判断地址是否 为 合约地址
     function isContract(address account) internal view returns (bool) {
         // This method relies on extcodesize, which returns 0 for contracts in
         // construction, since the code is only stored at the end of the
@@ -301,7 +192,6 @@ library Address {
      * {ReentrancyGuard} or the
      * https://solidity.readthedocs.io/en/v0.5.11/security-considerations.html#use-the-checks-effects-interactions-pattern[checks-effects-interactions pattern].
      */
-    // 给recipient 转账
     function sendValue(address payable recipient, uint256 amount) internal {
         require(address(this).balance >= amount, "Address: insufficient balance");
 
@@ -478,7 +368,6 @@ pragma solidity ^0.8.0;
  * @dev Interface for any contract that wants to support safeTransfers
  * from ERC721 asset contracts.
  */
-// NFT的转移时，如果 _to 是一个合约的话，那么其必须实现 IERC721Receiver接口才可以接收
 interface IERC721Receiver {
     /**
      * @dev Whenever an {IERC721} `tokenId` token is transferred to this contract via {IERC721-safeTransferFrom}
@@ -513,7 +402,6 @@ pragma solidity ^0.8.0;
  *
  * For an implementation, see {ERC165}.
  */
-// 要求合约提供其实现了哪些接口；在与合约进行交互的时候可以先调用此接口进行查询，了解合约具体实现了哪些接口
 interface IERC165 {
     /**
      * @dev Returns true if this contract implements the interface defined by
@@ -548,7 +436,6 @@ pragma solidity ^0.8.0;
  *
  * Alternatively, {ERC165Storage} provides an easier to use but more expensive implementation.
  */
-//抽象合约，官方对 IERC165 提供的默认实现
 abstract contract ERC165 is IERC165 {
     /**
      * @dev See {IERC165-supportsInterface}.
@@ -569,7 +456,6 @@ pragma solidity ^0.8.0;
 /**
  * @dev Required interface of an ERC721 compliant contract.
  */
-// 发行 NFT 的标准合约规范；定义了 NFT 合约的各类行为接口，诸如：转移、授权
 interface IERC721 is IERC165 {
     /**
      * @dev Emitted when `tokenId` token is transferred from `from` to `to`.
@@ -716,7 +602,6 @@ pragma solidity ^0.8.0;
  * @title ERC-721 Non-Fungible Token Standard, optional metadata extension
  * @dev See https://eips.ethereum.org/EIPS/eip-721
  */
-// 定义合约的元数据信息；诸如：合约名字、标志、以及每个代币的 tokenURI
 interface IERC721Metadata is IERC721 {
     /**
      * @dev Returns the token collection name.
@@ -753,30 +638,23 @@ pragma solidity ^0.8.0;
  * the Metadata extension, but not including the Enumerable extension, which is available separately as
  * {ERC721Enumerable}.
  */
-//官方对 IERC721 提供的默认实现
 contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
-    // // Address和Strings可理解为工具类，这里是为了安全 or 操作便捷考虑
     using Address for address;
     using Strings for uint256;
 
     // Token name
-    // 合约名字 for IERC721Metadata 中的定义
     string private _name;
 
     // Token symbol
-    // 合约标志 for IERC721Metadata 中的定义
     string private _symbol;
 
     // Mapping from token ID to owner address
-    // key为tokenID，value为该tokenID对应的owner地址
     mapping(uint256 => address) private _owners;
 
     // Mapping owner address to token count
-    // key为用户地址，value为该地址拥有的token数量
     mapping(address => uint256) private _balances;
 
     // Mapping from token ID to approved address
-    // key为代币ID，value为代币所授权地址（一个token只能授予一个账号行使权）
     mapping(uint256 => address) private _tokenApprovals;
 
     // Mapping from owner to operator approvals
@@ -786,7 +664,6 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     /**
      * @dev Initializes the contract by setting a `name` and a `symbol` to the token collection.
      */
-    // 初始化
     constructor(string memory name_, string memory symbol_) {
         _name = name_;
         _symbol = symbol_;
@@ -795,7 +672,6 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     /**
      * @dev See {IERC165-supportsInterface}.
      */
-    // 判断interfaceId 是否已经实现
     function supportsInterface(bytes4 interfaceId) public view virtual override(ERC165, IERC165) returns (bool) {
         return
         interfaceId == type(IERC721).interfaceId ||
@@ -806,7 +682,6 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     /**
      * @dev See {IERC721-balanceOf}.
      */
-    // 查余额
     function balanceOf(address owner) public view virtual override returns (uint256) {
         require(owner != address(0), "ERC721: balance query for the zero address");
         return _balances[owner];
@@ -815,7 +690,6 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     /**
      * @dev See {IERC721-ownerOf}.
      */
-    // 根据tokenid查拥有者地址
     function ownerOf(uint256 tokenId) public view virtual override returns (address) {
         address owner = _owners[tokenId];
         require(owner != address(0), "ERC721: owner query for nonexistent token");
@@ -825,7 +699,6 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     /**
      * @dev See {IERC721Metadata-name}.
      */
-    //查合约名
     function name() public view virtual override returns (string memory) {
         return _name;
     }
@@ -833,7 +706,6 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     /**
      * @dev See {IERC721Metadata-symbol}.
      */
-    // 查合约标识
     function symbol() public view virtual override returns (string memory) {
         return _symbol;
     }
@@ -841,8 +713,6 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     /**
      * @dev See {IERC721Metadata-tokenURI}.
      */
-    // 查 tokenID代币对应的 tokenURI
-    // ?
     function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
         require(_exists(tokenId), "ERC721Metadata: URI query for nonexistent token");
 
@@ -862,7 +732,6 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     /**
      * @dev See {IERC721-approve}.
      */
-    // tokenid授权给其他地址
     function approve(address to, uint256 tokenId) public virtual override {
         address owner = ERC721.ownerOf(tokenId);
         require(to != owner, "ERC721: approval to current owner");
@@ -878,7 +747,6 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     /**
      * @dev See {IERC721-getApproved}.
      */
-    // 获取代币tokenID的被授权用户地址
     function getApproved(uint256 tokenId) public view virtual override returns (address) {
         require(_exists(tokenId), "ERC721: approved query for nonexistent token");
 
@@ -888,7 +756,6 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     /**
      * @dev See {IERC721-setApprovalForAll}.
      */
-    // 函数调用者msgSender()将自己所有的代币的行使权(授予或者回收)operator账号
     function setApprovalForAll(address operator, bool approved) public virtual override {
         _setApprovalForAll(_msgSender(), operator, approved);
     }
@@ -896,7 +763,6 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     /**
      * @dev See {IERC721-isApprovedForAll}.
      */
-    // 判断owner是否对某地址授权
     function isApprovedForAll(address owner, address operator) public view virtual override returns (bool) {
         return _operatorApprovals[owner][operator];
     }
@@ -904,7 +770,6 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     /**
      * @dev See {IERC721-transferFrom}.
      */
-    // 交易 将tokenID从from账号转移到to账号
     function transferFrom(
         address from,
         address to,
@@ -919,7 +784,6 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     /**
      * @dev See {IERC721-safeTransferFrom}.
      */
-    // 安全代币转移
     function safeTransferFrom(
         address from,
         address to,
@@ -931,7 +795,6 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     /**
      * @dev See {IERC721-safeTransferFrom}.
      */
-    // 安全转移函数，携带回调数据 _data
     function safeTransferFrom(
         address from,
         address to,
@@ -967,7 +830,6 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
         bytes memory _data
     ) internal virtual {
         _transfer(from, to, tokenId);
-        // 安全的由来：代币接收者如果是一个合约，那么其必须要实现IERC721Receiver规范，否则转移失败
         require(_checkOnERC721Received(from, to, tokenId, _data), "ERC721: transfer to non ERC721Receiver implementer");
     }
 
@@ -979,7 +841,6 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
      * Tokens start existing when they are minted (`_mint`),
      * and stop existing when they are burned (`_burn`).
      */
-    // 内部函数，判断代币是否存在
     function _exists(uint256 tokenId) internal view virtual returns (bool) {
         return _owners[tokenId] != address(0);
     }
@@ -991,7 +852,6 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
      *
      * - `tokenId` must exist.
      */
-    // 断地址是否为代币的owner或者是拥有代币行使权的账号
     function _isApprovedOrOwner(address spender, uint256 tokenId) internal view virtual returns (bool) {
         require(_exists(tokenId), "ERC721: operator query for nonexistent token");
         address owner = ERC721.ownerOf(tokenId);
@@ -1008,7 +868,6 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
      *
      * Emits a {Transfer} event.
      */
-    // 安全铸造NFT
     function _safeMint(address to, uint256 tokenId) internal virtual {
         _safeMint(to, tokenId, "");
     }
@@ -1042,11 +901,8 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
      * Emits a {Transfer} event.
      */
     function _mint(address to, uint256 tokenId) internal virtual {
-        //检查接收地址是否存在
         require(to != address(0), "ERC721: mint to the zero address");
-        //判断tokenid是否已经被铸造
         require(!_exists(tokenId), "ERC721: token already minted");
-        // 代币转移前触发
         _beforeTokenTransfer(address(0), to, tokenId);
 
         _balances[to] += 1;
@@ -1065,21 +921,14 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
      *
      * Emits a {Transfer} event.
      */
-    // 代币销毁
-    //
     function _burn(uint256 tokenId) internal virtual {
         address owner = ERC721.ownerOf(tokenId);
-        // 代币转移前触发
         _beforeTokenTransfer(owner, address(0), tokenId);
 
         // Clear approvals
-        // 清除授权
         _approve(address(0), tokenId);
-        // 用户代币数-1
         _balances[owner] -= 1;
-        // 清理代币
         delete _owners[tokenId];
-        // 触发代币转移事件，代币的接受者为零地址，说明是销毁
         emit Transfer(owner, address(0), tokenId);
     }
 
@@ -1094,29 +943,20 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
      *
      * Emits a {Transfer} event.
      */
-    // 交易过程
     function _transfer(
         address from,
         address to,
         uint256 tokenId
     ) internal virtual {
-        //判断是否是该tokenid的所有者
         require(ERC721.ownerOf(tokenId) == from, "ERC721: transfer of token that is not own");
-        //判断接收地址是否存在
         require(to != address(0), "ERC721: transfer to the zero address");
-        // 代币转移前触发，官方实现无做实际操作，如果业务有特殊的逻辑,可重写
         _beforeTokenTransfer(from, to, tokenId);
 
         // Clear approvals from the previous owner
-        // 清除之前的授权—————指向零地址
         _approve(address(0), tokenId);
-        //from账号代币数 -1
         _balances[from] -= 1;
-        // to账号代币数 +1
         _balances[to] += 1;
-        //执行代币的转移，更换owner地址
         _owners[tokenId] = to;
-        //触发转移事件
         emit Transfer(from, to, tokenId);
     }
 
@@ -1125,7 +965,6 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
      *
      * Emits a {Approval} event.
      */
-    // 授予to账号tokenID的行使权，并触发授权事件
     function _approve(address to, uint256 tokenId) internal virtual {
         _tokenApprovals[tokenId] = to;
         emit Approval(ERC721.ownerOf(tokenId), to, tokenId);
@@ -1136,7 +975,6 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
      *
      * Emits a {ApprovalForAll} event.
      */
-    // owner授予/回收operator对自己所有代币的权限
     function _setApprovalForAll(
         address owner,
         address operator,
@@ -1157,8 +995,6 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
      * @param _data bytes optional data to send along with the call
      * @return bool whether the call correctly returned the expected magic value
      */
-    // 内部方法：判断代币接收者是否是合约，并且是否实现了 IERC721Receiver 接口
-    // 如果代币的接受者是一个合约的话，那么合约需要实现 IERC721Receiver 接口
     function _checkOnERC721Received(
         address from,
         address to,
@@ -1205,9 +1041,886 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
 
 // File: NFTMinter.sol
 
+pragma solidity ^0.8.0;
+contract MerkleProof {
+    function verify(
+        bytes32[] memory proof,
+        bytes32 root,
+        bytes32 leaf
+    ) internal pure returns (bool) {
+        return processProof(proof, leaf) == root;
+    }
+    function processProof(bytes32[] memory proof, bytes32 leaf) internal pure returns (bytes32) {
+        bytes32 computedHash = leaf;
+        for (uint256 i = 0; i < proof.length; i++) {
+            bytes32 proofElement = proof[i];
+            if (computedHash <= proofElement) {
+                // Hash(current computed hash + current element of the proof)
+                computedHash = _efficientHash(computedHash, proofElement);
+            } else {
+                // Hash(current element of the proof + current computed hash)
+                computedHash = _efficientHash(proofElement, computedHash);
+            }
+        }
+        return computedHash;
+    }
+    function _efficientHash(bytes32 a, bytes32 b) private pure returns (bytes32 value) {
+        /// @solidity memory-safe-assembly
+        assembly {
+            mstore(0x00, a)
+            mstore(0x20, b)
+            value := keccak256(0x00, 0x40)
+        }
+    }
+}
+
+pragma solidity ^0.8.0;
+
+
+/**
+ * @dev Interface for the NFT Royalty Standard.
+ *
+ * A standardized way to retrieve royalty payment information for non-fungible tokens (NFTs) to enable universal
+ * support for royalty payments across all NFT marketplaces and ecosystem participants.
+ *
+ * _Available since v4.5._
+ */
+interface IERC2981 is IERC165 {
+    /**
+     * @dev Returns how much royalty is owed and to whom, based on a sale price that may be denominated in any unit of
+     * exchange. The royalty amount is denominated and should be paid in that same unit of exchange.
+     */
+    function royaltyInfo(uint256 tokenId, uint256 salePrice)
+        external
+        view
+        returns (address receiver, uint256 royaltyAmount);
+}
+
+pragma solidity ^0.8.0;
+
+
+/**
+ * @dev Implementation of the NFT Royalty Standard, a standardized way to retrieve royalty payment information.
+ *
+ * Royalty information can be specified globally for all token ids via {_setDefaultRoyalty}, and/or individually for
+ * specific token ids via {_setTokenRoyalty}. The latter takes precedence over the first.
+ *
+ * Royalty is specified as a fraction of sale price. {_feeDenominator} is overridable but defaults to 10000, meaning the
+ * fee is specified in basis points by default.
+ *
+ * IMPORTANT: ERC-2981 only specifies a way to signal royalty information and does not enforce its payment. See
+ * https://eips.ethereum.org/EIPS/eip-2981#optional-royalty-payments[Rationale] in the EIP. Marketplaces are expected to
+ * voluntarily pay royalties together with sales, but note that this standard is not yet widely supported.
+ *
+ * _Available since v4.5._
+ */
+abstract contract ERC2981 is IERC2981, ERC165 {
+    struct RoyaltyInfo {
+        address receiver;
+        uint96 royaltyFraction;
+    }
+
+    RoyaltyInfo private _defaultRoyaltyInfo;
+    mapping(uint256 => RoyaltyInfo) private _tokenRoyaltyInfo;
+
+    /**
+     * @dev See {IERC165-supportsInterface}.
+     */
+    function supportsInterface(bytes4 interfaceId) public view virtual override(IERC165, ERC165) returns (bool) {
+        return interfaceId == type(IERC2981).interfaceId || super.supportsInterface(interfaceId);
+    }
+
+    /**
+     * @inheritdoc IERC2981
+     */
+    function royaltyInfo(uint256 _tokenId, uint256 _salePrice) public view virtual override returns (address, uint256) {
+        RoyaltyInfo memory royalty = _tokenRoyaltyInfo[_tokenId];
+
+        if (royalty.receiver == address(0)) {
+            royalty = _defaultRoyaltyInfo;
+        }
+
+        uint256 royaltyAmount = (_salePrice * royalty.royaltyFraction) / _feeDenominator();
+
+        return (royalty.receiver, royaltyAmount);
+    }
+
+    /**
+     * @dev The denominator with which to interpret the fee set in {_setTokenRoyalty} and {_setDefaultRoyalty} as a
+     * fraction of the sale price. Defaults to 10000 so fees are expressed in basis points, but may be customized by an
+     * override.
+     */
+    function _feeDenominator() internal pure virtual returns (uint96) {
+        return 10000;
+    }
+
+    /**
+     * @dev Sets the royalty information that all ids in this contract will default to.
+     *
+     * Requirements:
+     *
+     * - `receiver` cannot be the zero address.
+     * - `feeNumerator` cannot be greater than the fee denominator.
+     */
+    function _setDefaultRoyalty(address receiver, uint96 feeNumerator) internal virtual {
+        require(feeNumerator <= _feeDenominator(), "ERC2981: royalty fee will exceed salePrice");
+        require(receiver != address(0), "ERC2981: invalid receiver");
+
+        _defaultRoyaltyInfo = RoyaltyInfo(receiver, feeNumerator);
+    }
+
+    /**
+     * @dev Removes default royalty information.
+     */
+    function _deleteDefaultRoyalty() internal virtual {
+        delete _defaultRoyaltyInfo;
+    }
+
+    function _setTokenRoyalty(
+        uint256 tokenId,
+        address receiver,
+        uint96 feeNumerator
+    ) internal virtual {
+        require(feeNumerator <= _feeDenominator(), "ERC2981: royalty fee will exceed salePrice");
+        require(receiver != address(0), "ERC2981: Invalid parameters");
+
+        _tokenRoyaltyInfo[tokenId] = RoyaltyInfo(receiver, feeNumerator);
+    }
+
+    /**
+     * @dev Resets royalty information for the token id back to the global default.
+     */
+    function _resetTokenRoyalty(uint256 tokenId) internal virtual {
+        delete _tokenRoyaltyInfo[tokenId];
+    }
+}
 
 
 pragma solidity ^0.8.0;
+
+/**
+ * @dev https://eips.ethereum.org/EIPS/eip-712[EIP 712] is a standard for hashing and signing of typed structured data.
+ *
+ * The encoding specified in the EIP is very generic, and such a generic implementation in Solidity is not feasible,
+ * thus this contract does not implement the encoding itself. Protocols need to implement the type-specific encoding
+ * they need in their contracts using a combination of `abi.encode` and `keccak256`.
+ *
+ * This contract implements the EIP 712 domain separator ({_domainSeparatorV4}) that is used as part of the encoding
+ * scheme, and the final step of the encoding to obtain the message digest that is then signed via ECDSA
+ * ({_hashTypedDataV4}).
+ *
+ * The implementation of the domain separator was designed to be as efficient as possible while still properly updating
+ * the chain id to protect against replay attacks on an eventual fork of the chain.
+ *
+ * NOTE: This contract implements the version of the encoding known as "v4", as implemented by the JSON RPC method
+ * https://docs.metamask.io/guide/signing-data.html[`eth_signTypedDataV4` in MetaMask].
+ *
+ * _Available since v3.4._
+ */
+abstract contract EIP712 {
+    /* solhint-disable var-name-mixedcase */
+    // Cache the domain separator as an immutable value, but also store the chain id that it corresponds to, in order to
+    // invalidate the cached domain separator if the chain id changes.
+    bytes32 private immutable _CACHED_DOMAIN_SEPARATOR;
+    uint256 private immutable _CACHED_CHAIN_ID;
+    address private immutable _CACHED_THIS;
+
+    bytes32 private immutable _HASHED_NAME;
+    bytes32 private immutable _HASHED_VERSION;
+    bytes32 private immutable _TYPE_HASH;
+
+    /* solhint-enable var-name-mixedcase */
+
+    /**
+     * @dev Initializes the domain separator and parameter caches.
+     *
+     * The meaning of `name` and `version` is specified in
+     * https://eips.ethereum.org/EIPS/eip-712#definition-of-domainseparator[EIP 712]:
+     *
+     * - `name`: the user readable name of the signing domain, i.e. the name of the DApp or the protocol.
+     * - `version`: the current major version of the signing domain.
+     *
+     * NOTE: These parameters cannot be changed except through a xref:learn::upgrading-smart-contracts.adoc[smart
+     * contract upgrade].
+     */
+    constructor(string memory name, string memory version) {
+        bytes32 hashedName = keccak256(bytes(name));
+        bytes32 hashedVersion = keccak256(bytes(version));
+        bytes32 typeHash = keccak256(
+            "EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"
+        );
+        _HASHED_NAME = hashedName;
+        _HASHED_VERSION = hashedVersion;
+        _CACHED_CHAIN_ID = block.chainid;
+        _CACHED_DOMAIN_SEPARATOR = _buildDomainSeparator(typeHash, hashedName, hashedVersion);
+        _CACHED_THIS = address(this);
+        _TYPE_HASH = typeHash;
+    }
+
+    /**
+     * @dev Returns the domain separator for the current chain.
+     */
+    function _domainSeparatorV4() internal view returns (bytes32) {
+        if (address(this) == _CACHED_THIS && block.chainid == _CACHED_CHAIN_ID) {
+            return _CACHED_DOMAIN_SEPARATOR;
+        } else {
+            return _buildDomainSeparator(_TYPE_HASH, _HASHED_NAME, _HASHED_VERSION);
+        }
+    }
+
+    function _buildDomainSeparator(
+        bytes32 typeHash,
+        bytes32 nameHash,
+        bytes32 versionHash
+    ) private view returns (bytes32) {
+        return keccak256(abi.encode(typeHash, nameHash, versionHash, block.chainid, address(this)));
+    }
+
+    /**
+     * @dev Given an already https://eips.ethereum.org/EIPS/eip-712#definition-of-hashstruct[hashed struct], this
+     * function returns the hash of the fully encoded EIP712 message for this domain.
+     *
+     * This hash can be used together with {ECDSA-recover} to obtain the signer of a message. For example:
+     *
+     * ```solidity
+     * bytes32 digest = _hashTypedDataV4(keccak256(abi.encode(
+     *     keccak256("Mail(address to,string contents)"),
+     *     mailTo,
+     *     keccak256(bytes(mailContents))
+     * )));
+     * address signer = ECDSA.recover(digest, signature);
+     * ```
+     */
+    function _hashTypedDataV4(bytes32 structHash) internal view virtual returns (bytes32) {
+        return ECDSA.toTypedDataHash(_domainSeparatorV4(), structHash);
+    }
+}
+
+
+
+pragma solidity ^0.8.0;
+
+
+/**
+ * @dev Elliptic Curve Digital Signature Algorithm (ECDSA) operations.
+ *
+ * These functions can be used to verify that a message was signed by the holder
+ * of the private keys of a given address.
+ */
+library ECDSA {
+    enum RecoverError {
+        NoError,
+        InvalidSignature,
+        InvalidSignatureLength,
+        InvalidSignatureS,
+        InvalidSignatureV // Deprecated in v4.8
+    }
+
+    function _throwError(RecoverError error) private pure {
+        if (error == RecoverError.NoError) {
+            return; // no error: do nothing
+        } else if (error == RecoverError.InvalidSignature) {
+            revert("ECDSA: invalid signature");
+        } else if (error == RecoverError.InvalidSignatureLength) {
+            revert("ECDSA: invalid signature length");
+        } else if (error == RecoverError.InvalidSignatureS) {
+            revert("ECDSA: invalid signature 's' value");
+        }
+    }
+
+    /**
+     * @dev Returns the address that signed a hashed message (`hash`) with
+     * `signature` or error string. This address can then be used for verification purposes.
+     *
+     * The `ecrecover` EVM opcode allows for malleable (non-unique) signatures:
+     * this function rejects them by requiring the `s` value to be in the lower
+     * half order, and the `v` value to be either 27 or 28.
+     *
+     * IMPORTANT: `hash` _must_ be the result of a hash operation for the
+     * verification to be secure: it is possible to craft signatures that
+     * recover to arbitrary addresses for non-hashed data. A safe way to ensure
+     * this is by receiving a hash of the original message (which may otherwise
+     * be too long), and then calling {toEthSignedMessageHash} on it.
+     *
+     * Documentation for signature generation:
+     * - with https://web3js.readthedocs.io/en/v1.3.4/web3-eth-accounts.html#sign[Web3.js]
+     * - with https://docs.ethers.io/v5/api/signer/#Signer-signMessage[ethers]
+     *
+     * _Available since v4.3._
+     */
+    function tryRecover(bytes32 hash, bytes memory signature) internal pure returns (address, RecoverError) {
+        if (signature.length == 65) {
+            bytes32 r;
+            bytes32 s;
+            uint8 v;
+            // ecrecover takes the signature parameters, and the only way to get them
+            // currently is to use assembly.
+            /// @solidity memory-safe-assembly
+            assembly {
+                r := mload(add(signature, 0x20))
+                s := mload(add(signature, 0x40))
+                v := byte(0, mload(add(signature, 0x60)))
+            }
+            return tryRecover(hash, v, r, s);
+        } else {
+            return (address(0), RecoverError.InvalidSignatureLength);
+        }
+    }
+
+    /**
+     * @dev Returns the address that signed a hashed message (`hash`) with
+     * `signature`. This address can then be used for verification purposes.
+     *
+     * The `ecrecover` EVM opcode allows for malleable (non-unique) signatures:
+     * this function rejects them by requiring the `s` value to be in the lower
+     * half order, and the `v` value to be either 27 or 28.
+     *
+     * IMPORTANT: `hash` _must_ be the result of a hash operation for the
+     * verification to be secure: it is possible to craft signatures that
+     * recover to arbitrary addresses for non-hashed data. A safe way to ensure
+     * this is by receiving a hash of the original message (which may otherwise
+     * be too long), and then calling {toEthSignedMessageHash} on it.
+     */
+    function recover(bytes32 hash, bytes memory signature) internal pure returns (address) {
+        (address recovered, RecoverError error) = tryRecover(hash, signature);
+        _throwError(error);
+        return recovered;
+    }
+
+    /**
+     * @dev Overload of {ECDSA-tryRecover} that receives the `r` and `vs` short-signature fields separately.
+     *
+     * See https://eips.ethereum.org/EIPS/eip-2098[EIP-2098 short signatures]
+     *
+     * _Available since v4.3._
+     */
+    function tryRecover(
+        bytes32 hash,
+        bytes32 r,
+        bytes32 vs
+    ) internal pure returns (address, RecoverError) {
+        bytes32 s = vs & bytes32(0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff);
+        uint8 v = uint8((uint256(vs) >> 255) + 27);
+        return tryRecover(hash, v, r, s);
+    }
+
+    /**
+     * @dev Overload of {ECDSA-recover} that receives the `r and `vs` short-signature fields separately.
+     *
+     * _Available since v4.2._
+     */
+    function recover(
+        bytes32 hash,
+        bytes32 r,
+        bytes32 vs
+    ) internal pure returns (address) {
+        (address recovered, RecoverError error) = tryRecover(hash, r, vs);
+        _throwError(error);
+        return recovered;
+    }
+
+    /**
+     * @dev Overload of {ECDSA-tryRecover} that receives the `v`,
+     * `r` and `s` signature fields separately.
+     *
+     * _Available since v4.3._
+     */
+    function tryRecover(
+        bytes32 hash,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) internal pure returns (address, RecoverError) {
+        // EIP-2 still allows signature malleability for ecrecover(). Remove this possibility and make the signature
+        // unique. Appendix F in the Ethereum Yellow paper (https://ethereum.github.io/yellowpaper/paper.pdf), defines
+        // the valid range for s in (301): 0 < s < secp256k1n ÷ 2 + 1, and for v in (302): v ∈ {27, 28}. Most
+        // signatures from current libraries generate a unique signature with an s-value in the lower half order.
+        //
+        // If your library generates malleable signatures, such as s-values in the upper range, calculate a new s-value
+        // with 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141 - s1 and flip v from 27 to 28 or
+        // vice versa. If your library also generates signatures with 0/1 for v instead 27/28, add 27 to v to accept
+        // these malleable signatures as well.
+        if (uint256(s) > 0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A0) {
+            return (address(0), RecoverError.InvalidSignatureS);
+        }
+
+        // If the signature is valid (and not malleable), return the signer address
+        address signer = ecrecover(hash, v, r, s);
+        if (signer == address(0)) {
+            return (address(0), RecoverError.InvalidSignature);
+        }
+
+        return (signer, RecoverError.NoError);
+    }
+
+    /**
+     * @dev Overload of {ECDSA-recover} that receives the `v`,
+     * `r` and `s` signature fields separately.
+     */
+    function recover(
+        bytes32 hash,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) internal pure returns (address) {
+        (address recovered, RecoverError error) = tryRecover(hash, v, r, s);
+        _throwError(error);
+        return recovered;
+    }
+
+    /**
+     * @dev Returns an Ethereum Signed Message, created from a `hash`. This
+     * produces hash corresponding to the one signed with the
+     * https://eth.wiki/json-rpc/API#eth_sign[`eth_sign`]
+     * JSON-RPC method as part of EIP-191.
+     *
+     * See {recover}.
+     */
+    function toEthSignedMessageHash(bytes32 hash) internal pure returns (bytes32) {
+        // 32 is the length in bytes of hash,
+        // enforced by the type signature above
+        return keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", hash));
+    }
+
+    /**
+     * @dev Returns an Ethereum Signed Message, created from `s`. This
+     * produces hash corresponding to the one signed with the
+     * https://eth.wiki/json-rpc/API#eth_sign[`eth_sign`]
+     * JSON-RPC method as part of EIP-191.
+     *
+     * See {recover}.
+     */
+    function toEthSignedMessageHash(bytes memory s) internal pure returns (bytes32) {
+        return keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n", Strings.toString(s.length), s));
+    }
+
+    /**
+     * @dev Returns an Ethereum Signed Typed Data, created from a
+     * `domainSeparator` and a `structHash`. This produces hash corresponding
+     * to the one signed with the
+     * https://eips.ethereum.org/EIPS/eip-712[`eth_signTypedData`]
+     * JSON-RPC method as part of EIP-712.
+     *
+     * See {recover}.
+     */
+    function toTypedDataHash(bytes32 domainSeparator, bytes32 structHash) internal pure returns (bytes32) {
+        return keccak256(abi.encodePacked("\x19\x01", domainSeparator, structHash));
+    }
+}
+
+pragma solidity ^0.8.0;
+
+
+/**
+ * @dev String operations.
+ */
+library Strings {
+    bytes16 private constant _SYMBOLS = "0123456789abcdef";
+    uint8 private constant _ADDRESS_LENGTH = 20;
+
+    /**
+     * @dev Converts a `uint256` to its ASCII `string` decimal representation.
+     */
+    function toString(uint256 value) internal pure returns (string memory) {
+        unchecked {
+            uint256 length = Math.log10(value) + 1;
+            string memory buffer = new string(length);
+            uint256 ptr;
+            /// @solidity memory-safe-assembly
+            assembly {
+                ptr := add(buffer, add(32, length))
+            }
+            while (true) {
+                ptr--;
+                /// @solidity memory-safe-assembly
+                assembly {
+                    mstore8(ptr, byte(mod(value, 10), _SYMBOLS))
+                }
+                value /= 10;
+                if (value == 0) break;
+            }
+            return buffer;
+        }
+    }
+
+    /**
+     * @dev Converts a `uint256` to its ASCII `string` hexadecimal representation.
+     */
+    function toHexString(uint256 value) internal pure returns (string memory) {
+        unchecked {
+            return toHexString(value, Math.log256(value) + 1);
+        }
+    }
+
+    /**
+     * @dev Converts a `uint256` to its ASCII `string` hexadecimal representation with fixed length.
+     */
+    function toHexString(uint256 value, uint256 length) internal pure returns (string memory) {
+        bytes memory buffer = new bytes(2 * length + 2);
+        buffer[0] = "0";
+        buffer[1] = "x";
+        for (uint256 i = 2 * length + 1; i > 1; --i) {
+            buffer[i] = _SYMBOLS[value & 0xf];
+            value >>= 4;
+        }
+        require(value == 0, "Strings: hex length insufficient");
+        return string(buffer);
+    }
+
+    /**
+     * @dev Converts an `address` with fixed length of 20 bytes to its not checksummed ASCII `string` hexadecimal representation.
+     */
+    function toHexString(address addr) internal pure returns (string memory) {
+        return toHexString(uint256(uint160(addr)), _ADDRESS_LENGTH);
+    }
+}
+pragma solidity ^0.8.0;
+
+/**
+ * @dev Standard math utilities missing in the Solidity language.
+ */
+library Math {
+    enum Rounding {
+        Down, // Toward negative infinity
+        Up, // Toward infinity
+        Zero // Toward zero
+    }
+
+    /**
+     * @dev Returns the largest of two numbers.
+     */
+    function max(uint256 a, uint256 b) internal pure returns (uint256) {
+        return a > b ? a : b;
+    }
+
+    /**
+     * @dev Returns the smallest of two numbers.
+     */
+    function min(uint256 a, uint256 b) internal pure returns (uint256) {
+        return a < b ? a : b;
+    }
+
+    /**
+     * @dev Returns the average of two numbers. The result is rounded towards
+     * zero.
+     */
+    function average(uint256 a, uint256 b) internal pure returns (uint256) {
+        // (a + b) / 2 can overflow.
+        return (a & b) + (a ^ b) / 2;
+    }
+
+    /**
+     * @dev Returns the ceiling of the division of two numbers.
+     *
+     * This differs from standard division with `/` in that it rounds up instead
+     * of rounding down.
+     */
+    function ceilDiv(uint256 a, uint256 b) internal pure returns (uint256) {
+        // (a + b - 1) / b can overflow on addition, so we distribute.
+        return a == 0 ? 0 : (a - 1) / b + 1;
+    }
+
+    /**
+     * @notice Calculates floor(x * y / denominator) with full precision. Throws if result overflows a uint256 or denominator == 0
+     * @dev Original credit to Remco Bloemen under MIT license (https://xn--2-umb.com/21/muldiv)
+     * with further edits by Uniswap Labs also under MIT license.
+     */
+    function mulDiv(
+        uint256 x,
+        uint256 y,
+        uint256 denominator
+    ) internal pure returns (uint256 result) {
+        unchecked {
+            // 512-bit multiply [prod1 prod0] = x * y. Compute the product mod 2^256 and mod 2^256 - 1, then use
+            // use the Chinese Remainder Theorem to reconstruct the 512 bit result. The result is stored in two 256
+            // variables such that product = prod1 * 2^256 + prod0.
+            uint256 prod0; // Least significant 256 bits of the product
+            uint256 prod1; // Most significant 256 bits of the product
+            assembly {
+                let mm := mulmod(x, y, not(0))
+                prod0 := mul(x, y)
+                prod1 := sub(sub(mm, prod0), lt(mm, prod0))
+            }
+
+            // Handle non-overflow cases, 256 by 256 division.
+            if (prod1 == 0) {
+                return prod0 / denominator;
+            }
+
+            // Make sure the result is less than 2^256. Also prevents denominator == 0.
+            require(denominator > prod1);
+
+            ///////////////////////////////////////////////
+            // 512 by 256 division.
+            ///////////////////////////////////////////////
+
+            // Make division exact by subtracting the remainder from [prod1 prod0].
+            uint256 remainder;
+            assembly {
+                // Compute remainder using mulmod.
+                remainder := mulmod(x, y, denominator)
+
+                // Subtract 256 bit number from 512 bit number.
+                prod1 := sub(prod1, gt(remainder, prod0))
+                prod0 := sub(prod0, remainder)
+            }
+
+            // Factor powers of two out of denominator and compute largest power of two divisor of denominator. Always >= 1.
+            // See https://cs.stackexchange.com/q/138556/92363.
+
+            // Does not overflow because the denominator cannot be zero at this stage in the function.
+            uint256 twos = denominator & (~denominator + 1);
+            assembly {
+                // Divide denominator by twos.
+                denominator := div(denominator, twos)
+
+                // Divide [prod1 prod0] by twos.
+                prod0 := div(prod0, twos)
+
+                // Flip twos such that it is 2^256 / twos. If twos is zero, then it becomes one.
+                twos := add(div(sub(0, twos), twos), 1)
+            }
+
+            // Shift in bits from prod1 into prod0.
+            prod0 |= prod1 * twos;
+
+            // Invert denominator mod 2^256. Now that denominator is an odd number, it has an inverse modulo 2^256 such
+            // that denominator * inv = 1 mod 2^256. Compute the inverse by starting with a seed that is correct for
+            // four bits. That is, denominator * inv = 1 mod 2^4.
+            uint256 inverse = (3 * denominator) ^ 2;
+
+            // Use the Newton-Raphson iteration to improve the precision. Thanks to Hensel's lifting lemma, this also works
+            // in modular arithmetic, doubling the correct bits in each step.
+            inverse *= 2 - denominator * inverse; // inverse mod 2^8
+            inverse *= 2 - denominator * inverse; // inverse mod 2^16
+            inverse *= 2 - denominator * inverse; // inverse mod 2^32
+            inverse *= 2 - denominator * inverse; // inverse mod 2^64
+            inverse *= 2 - denominator * inverse; // inverse mod 2^128
+            inverse *= 2 - denominator * inverse; // inverse mod 2^256
+
+            // Because the division is now exact we can divide by multiplying with the modular inverse of denominator.
+            // This will give us the correct result modulo 2^256. Since the preconditions guarantee that the outcome is
+            // less than 2^256, this is the final result. We don't need to compute the high bits of the result and prod1
+            // is no longer required.
+            result = prod0 * inverse;
+            return result;
+        }
+    }
+
+    /**
+     * @notice Calculates x * y / denominator with full precision, following the selected rounding direction.
+     */
+    function mulDiv(
+        uint256 x,
+        uint256 y,
+        uint256 denominator,
+        Rounding rounding
+    ) internal pure returns (uint256) {
+        uint256 result = mulDiv(x, y, denominator);
+        if (rounding == Rounding.Up && mulmod(x, y, denominator) > 0) {
+            result += 1;
+        }
+        return result;
+    }
+
+    /**
+     * @dev Returns the square root of a number. If the number is not a perfect square, the value is rounded down.
+     *
+     * Inspired by Henry S. Warren, Jr.'s "Hacker's Delight" (Chapter 11).
+     */
+    function sqrt(uint256 a) internal pure returns (uint256) {
+        if (a == 0) {
+            return 0;
+        }
+
+        // For our first guess, we get the biggest power of 2 which is smaller than the square root of the target.
+        //
+        // We know that the "msb" (most significant bit) of our target number `a` is a power of 2 such that we have
+        // `msb(a) <= a < 2*msb(a)`. This value can be written `msb(a)=2**k` with `k=log2(a)`.
+        //
+        // This can be rewritten `2**log2(a) <= a < 2**(log2(a) + 1)`
+        // → `sqrt(2**k) <= sqrt(a) < sqrt(2**(k+1))`
+        // → `2**(k/2) <= sqrt(a) < 2**((k+1)/2) <= 2**(k/2 + 1)`
+        //
+        // Consequently, `2**(log2(a) / 2)` is a good first approximation of `sqrt(a)` with at least 1 correct bit.
+        uint256 result = 1 << (logs2(a) >> 1);
+
+        // At this point `result` is an estimation with one bit of precision. We know the true value is a uint128,
+        // since it is the square root of a uint256. Newton's method converges quadratically (precision doubles at
+        // every iteration). We thus need at most 7 iteration to turn our partial result with one bit of precision
+        // into the expected uint128 result.
+        unchecked {
+            result = (result + a / result) >> 1;
+            result = (result + a / result) >> 1;
+            result = (result + a / result) >> 1;
+            result = (result + a / result) >> 1;
+            result = (result + a / result) >> 1;
+            result = (result + a / result) >> 1;
+            result = (result + a / result) >> 1;
+            return min(result, a / result);
+        }
+    }
+
+    /**
+     * @notice Calculates sqrt(a), following the selected rounding direction.
+     */
+    function sqrt(uint256 a, Rounding rounding) internal pure returns (uint256) {
+        unchecked {
+            uint256 result = sqrt(a);
+            return result + (rounding == Rounding.Up && result * result < a ? 1 : 0);
+        }
+    }
+
+    /**
+     * @dev Return the log in base 2, rounded down, of a positive value.
+     * Returns 0 if given 0.
+     */
+    function logs2(uint256 value) internal pure returns (uint256) {
+        uint256 result = 0;
+        unchecked {
+            if (value >> 128 > 0) {
+                value >>= 128;
+                result += 128;
+            }
+            if (value >> 64 > 0) {
+                value >>= 64;
+                result += 64;
+            }
+            if (value >> 32 > 0) {
+                value >>= 32;
+                result += 32;
+            }
+            if (value >> 16 > 0) {
+                value >>= 16;
+                result += 16;
+            }
+            if (value >> 8 > 0) {
+                value >>= 8;
+                result += 8;
+            }
+            if (value >> 4 > 0) {
+                value >>= 4;
+                result += 4;
+            }
+            if (value >> 2 > 0) {
+                value >>= 2;
+                result += 2;
+            }
+            if (value >> 1 > 0) {
+                result += 1;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * @dev Return the log in base 2, following the selected rounding direction, of a positive value.
+     * Returns 0 if given 0.
+     */
+    function logs2(uint256 value, Rounding rounding) internal pure returns (uint256) {
+        unchecked {
+            uint256 result = logs2(value);
+            return result + (rounding == Rounding.Up && 1 << result < value ? 1 : 0);
+        }
+    }
+
+    /**
+     * @dev Return the log in base 10, rounded down, of a positive value.
+     * Returns 0 if given 0.
+     */
+    function log10(uint256 value) internal pure returns (uint256) {
+        uint256 result = 0;
+        unchecked {
+            if (value >= 10**64) {
+                value /= 10**64;
+                result += 64;
+            }
+            if (value >= 10**32) {
+                value /= 10**32;
+                result += 32;
+            }
+            if (value >= 10**16) {
+                value /= 10**16;
+                result += 16;
+            }
+            if (value >= 10**8) {
+                value /= 10**8;
+                result += 8;
+            }
+            if (value >= 10**4) {
+                value /= 10**4;
+                result += 4;
+            }
+            if (value >= 10**2) {
+                value /= 10**2;
+                result += 2;
+            }
+            if (value >= 10**1) {
+                result += 1;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * @dev Return the log in base 10, following the selected rounding direction, of a positive value.
+     * Returns 0 if given 0.
+     */
+    function log10(uint256 value, Rounding rounding) internal pure returns (uint256) {
+        unchecked {
+            uint256 result = log10(value);
+            return result + (rounding == Rounding.Up && 10**result < value ? 1 : 0);
+        }
+    }
+
+    /**
+     * @dev Return the log in base 256, rounded down, of a positive value.
+     * Returns 0 if given 0.
+     *
+     * Adding one to the result gives the number of pairs of hex symbols needed to represent `value` as a hex string.
+     */
+    function log256(uint256 value) internal pure returns (uint256) {
+        uint256 result = 0;
+        unchecked {
+            if (value >> 128 > 0) {
+                value >>= 128;
+                result += 16;
+            }
+            if (value >> 64 > 0) {
+                value >>= 64;
+                result += 8;
+            }
+            if (value >> 32 > 0) {
+                value >>= 32;
+                result += 4;
+            }
+            if (value >> 16 > 0) {
+                value >>= 16;
+                result += 2;
+            }
+            if (value >> 8 > 0) {
+                result += 1;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * @dev Return the log in base 10, following the selected rounding direction, of a positive value.
+     * Returns 0 if given 0.
+     */
+    function log256(uint256 value, Rounding rounding) internal pure returns (uint256) {
+        unchecked {
+            uint256 result = log256(value);
+            return result + (rounding == Rounding.Up && 1 << (result * 8) < value ? 1 : 0);
+        }
+    }
+}
+
+
+
+pragma solidity ^0.8.0;
+
 
 interface MYIERC721 {
     function tokenIdExist(uint256 tokenId) external view returns (bool);
@@ -1215,122 +1928,118 @@ interface MYIERC721 {
     function owner(uint256 tokenId) external view returns (address);
 }
 
-
-contract SecondNft is ERC721, Ownable {
+contract SecondNft is ERC721, ERC2981, Ownable, MerkleProof, EIP712 {
     using Counters for Counters.Counter;
     using Strings for uint256;
-    // 计数器
     Counters.Counter _tokenIds;
-    // 记录tokenid对应的nft url
     mapping(uint256 => string) _tokenURIs;
-    // 白名单root根hash
     bytes32 root;
-    // 盲盒baseurl
     string public baseURI;
-    // 盲盒未开时的url
     string public notRevealedUri;
-    // 单个nft铸造的最低花费
-    uint256 public minCost = 1 ether;
-    // 允许铸造的nft最大数量
+    uint256 public minCost = 10;
     uint256 public maxSupply = 10000;
-    // 一次铸币允许的最大数量
-    uint256 public maxMintAmount = 1;
-    // 每个地址 持有的最大nft数量
     uint256 public nftPerAddressLimit = 3;
-    // 当前是否允许铸币
     bool public paused = false;
-    // 当前盲盒是否开启
-    bool public revealed = false;
-    // 当前是否启用了白名单
-    bool public onlyWhitelisted = true;
-    // 铸造时给1级nft创建者的版税
-    uint public mintCreateRoyalties = 10;
-    // 铸造时给1级nft拥有者的版税
-    uint public mintOwnRoyalties = 5;
-
-    // 地址对应的1级nft tokenid
-    mapping(uint256 => uint256) public addressByFirstNft;
-    // 给1级nft的版税
-    mapping(address => uint256) public royaltiesFirstNft;
-
-    // 当前nft是否出售
-    mapping(uint256 => uint256) isSale;
-    // 1级nft合约地址
-    address public firstContractAddress = 0x5cB39fA4DBd79b254fB4c95409E9329F5e49739d;
+    mapping(uint256 => address) tokenCreateAddress;
+    mapping(address => uint256) royalties;
+    address proxyTransferContract;
     struct RenderToken {
         uint256 id;
         string uri;
     }
+    struct NFTVocher {
+        address from;
+        string url;
+    }
 
-    // 初始化 盲盒相关 先注释
+
+    bool public firstNftSwitch = false;
+    bool public whitelistMintEnabled = true;
+    mapping(uint256 => uint256) public addressByFirstNft;
+    mapping(address => bool) public whitelistClaimed;
+    address public firstContractAddress;
+
     constructor(
+        string memory _version,
         string memory _name,
         string memory _symbol,
         string memory _initBaseURI,
         string memory _initNotRevealedUri
-    ) ERC721(_name, _symbol) {
-        // 盲盒bsae url
-        //setBaseURI(_initBaseURI);
-        // 盲盒未开盒的url
-        //setNotRevealedURI(_initNotRevealedUri);
+    ) ERC721(_name, _symbol) EIP712(_name, _version){
+        setBaseURI(_initBaseURI);
+        setNotRevealedURI(_initNotRevealedUri);
     }
 
-    //    // internal  盲盒地址图片 前缀
-    //    function _baseURI() internal view virtual override returns (string memory) {
-    //        return baseURI;
-    //    }
-    // 设置盲盒base url
+    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, ERC2981) returns (bool) {
+        return  interfaceId == type(IERC721).interfaceId ||
+                   interfaceId == type(IERC721Metadata).interfaceId ||
+                   super.supportsInterface(interfaceId);
+    }
+
+
+    function setDefaultRoyalty(address receiver, uint96 feeNumerator) public virtual onlyOwner{
+        require(feeNumerator <= 1000 && feeNumerator >= 0, "between 1000 and 0");
+        _setDefaultRoyalty(receiver, feeNumerator);
+    }
+
+    function deleteDefaultRoyalty() public virtual onlyOwner{
+        _deleteDefaultRoyalty;
+    }
+
+    function setTokenRoyalty(   
+        uint256 tokenId,
+        address receiver,
+        uint96 feeNumerator
+    ) public virtual {
+        require(feeNumerator <= 1000 && feeNumerator >= 0, "between 1000 and 0");
+        require(tokenCreateAddress[tokenId] == msg.sender, "not owner");
+        _setTokenRoyalty(tokenId, receiver, feeNumerator);
+    }
+
+    function resetTokenRoyalty(uint256 tokenId) public virtual {
+        require(tokenCreateAddress[tokenId] == msg.sender, "not owner");
+        _resetTokenRoyalty(tokenId);
+    }
+
     function setBaseURI(string memory _newBaseURI) public onlyOwner {
         baseURI = _newBaseURI;
     }
-    // 设置盲盒未开盒的url
     function setNotRevealedURI(string memory _notRevealedURI) public onlyOwner {
         notRevealedUri = _notRevealedURI;
     }
-    // 设置tokenid对应的url
     function _setTokenURI(uint256 tokenId, string memory _tokenURI) internal {
         _tokenURIs[tokenId] = _tokenURI;
     }
-    // 设置当前是否允许铸币
     function pause(bool _state) public onlyOwner {
         paused = _state;
     }
-    // 设置当前是否启用白名单
-    function setOnlyWhitelisted(bool _state) public onlyOwner {
-        onlyWhitelisted = _state;
-    }
-    // 设置默克尔树 根
     function setMerkleRoot(bytes32 _root) public onlyOwner {
         root = _root;
     }
-    // 设置单个铸币 的最小花费
     function setMinCost(uint256 _minCost) public onlyOwner {
         minCost = _minCost;
     }
-    // 设置nft允许铸造的数量
     function setMaxSupply(uint256 _maxSupply) public onlyOwner {
         maxSupply = _maxSupply;
     }
-    // 设置一次铸币允许的最大数量
-    function setMaxMintAmount(uint256 _maxMintAmount) public onlyOwner {
-        maxMintAmount = _maxMintAmount;
-    }
-    // 设置每个地址允许持有的最大nft数量
     function setNftPerAddressLimit(uint256 _nftPerAddressLimit) public onlyOwner {
         nftPerAddressLimit = _nftPerAddressLimit;
     }
-    // 设置盲盒的状态 是否开启
-    function setRevealed(bool _state) public onlyOwner {
-        revealed = _state;
+    function setFirstNftSwitch(bool _state) public onlyOwner {
+        firstNftSwitch = _state;
     }
-    // 根据tokenid获取tokenurl
+    function setWhitelistMintEnabled(bool _state) public onlyOwner {
+        whitelistMintEnabled = _state;
+    }
+    function setProxyAddress(address proxyAddress) public onlyOwner {
+        proxyTransferContract = proxyAddress;
+    }
     function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
         require(_exists(tokenId), "operator query for nonexistent token");
         string memory _tokenURI = _tokenURIs[tokenId];
         return _tokenURI;
     }
 
-    //获取所有的tokenid和token url
     function getAllTokens() public view returns (RenderToken[] memory) {
         uint256 lastestId = _tokenIds.current();
         uint256 counter = 0;
@@ -1345,79 +2054,93 @@ contract SecondNft is ERC721, Ownable {
         return res;
     }
 
-    function mintNFT(uint256 firstTokenId, address recipient, string memory uri) public payable returns (uint256) {
-        // 控制当前合约是否可以mint
-        require(!paused, "the contract is paused");
-        //判断1级nft是否存在
-        require(MYIERC721(firstContractAddress).tokenIdExist(firstTokenId), "first nft not exist");
-        // 当前nft总数
+    function whitelistMint(uint256 firstTokenId, address recipient, string memory uri, bytes32[] memory proof) public payable returns (uint256) {
+        require(whitelistMintEnabled, "The whitelist sale is not enabled!");
+        if(firstNftSwitch){
+            require(MYIERC721(firstContractAddress).tokenIdExist(firstTokenId), "first nft not exist");
+        }
         uint256 supply = _tokenIds.current();
-        // 铸币有总数限制
         require(supply <= maxSupply, "max NFT limit exceeded");
-        if (msg.sender != owner()) {
+        require(!whitelistClaimed[recipient], "Address already claimed!");
+        if (msg.sender != owner()) {    
+            require(msg.sender == recipient, "msg.sender not same with recipient");
             uint256 ownerMintedCount = balanceOf(msg.sender);
-            //判断个人账户铸币后  持有nft总数是否超过限制
             require(ownerMintedCount + 1 <= nftPerAddressLimit, "max NFT per address exceeded");
-            // 判断个人账户余额是否足够 先注释
-            // require(msg.value >= minCost * 1, "insufficient funds");
+            require(msg.value >= minCost * 1, "insufficient funds");
+
+            bytes32 result = keccak256(abi.encodePacked(recipient));
+            require(verify(proof, root, result), "user is not whitelisted");
+            whitelistClaimed[recipient] = true;
         }
         _mint(recipient, supply);
         _tokenIds.increment();
-        //记录该nft基于的1级nft tokenid
+        _setTokenURI(supply, uri);
         addressByFirstNft[supply] = firstTokenId;
-        // 给版税 先注释
-        //_dealRoyalties(firstTokenId);
-        _tokenURIs[supply] = uri;
+        
         return supply;
     }
-    // 交易 判断tokenid是否设置允许交易
+
+    function mintNFT(uint256 firstTokenId, address recipient, string memory uri) public payable returns (uint256) {
+        require(!paused, "the contract is paused");
+        if(firstNftSwitch){
+            require(MYIERC721(firstContractAddress).tokenIdExist(firstTokenId), "first nft not exist");
+        }
+        uint256 supply = _tokenIds.current();
+        require(supply <= maxSupply, "max NFT limit exceeded");
+        if (msg.sender != owner()) {
+            require(msg.sender == recipient, "msg.sender not same with recipient");
+            uint256 ownerMintedCount = balanceOf(msg.sender);
+            require(ownerMintedCount + 1 <= nftPerAddressLimit, "max NFT per address exceeded");
+            require(msg.value >= minCost * 1, "insufficient funds");
+        }
+        tokenCreateAddress[supply] = msg.sender;
+        _mint(recipient, supply);
+        _tokenIds.increment();
+        _setTokenURI(supply, uri);
+        addressByFirstNft[supply] = firstTokenId;
+        return supply;
+    }
+
+    //lazymint
+    function lazymint(
+        address from,
+        string memory uri,
+        bytes memory signature
+    ) public payable returns (address) {
+        bytes32 digest = _hashTypedDataV4(keccak256(abi.encode(
+        keccak256("Mail(address from,uint256 value,string uri)"),
+            from,
+            msg.value,
+            keccak256(bytes(uri))
+        )));
+        require(ECDSA.recover(digest, signature) == from,"not signer");
+        uint256 supply = _tokenIds.current();
+        
+        _mint(from, supply);
+        tokenCreateAddress[supply] = from;
+        _tokenIds.increment();
+        _setTokenURI(supply, uri);
+        _transfer(from,msg.sender,supply);
+        payable(from).call{value: msg.value};
+        return from;
+    }
+
     function safeTransfer(address from, address to, uint256 tokenId) public payable {
-        // require(_isApprovedOrOwner(_msgSender(), tokenId), "ERC721: transfer caller is not owner nor approved");
-        require(_exists(tokenId), "ERC721Metadata: URI query for nonexistent token");
+        require(msg.sender == proxyTransferContract, "wrong proxyTransferContract");
+        require(_exists(tokenId), "URI query for nonexistent token");
         require(from != address(0), "from is the zero address");
         require(to != address(0), "to is the zero address");
-        require(isSale[tokenId] > 0, "token is not sell");
-        require(msg.value >= isSale[tokenId], "token is not enough");
-        isSale[tokenId] = 0;
-        safeTransferFrom(from, to, tokenId, "");
-        //给1级nft创建者和拥有者的版税 显注释
-        //_dealRoyalties(tokenId);
-        //给2级nft卖家的币 扣除1% 先注释
-        //royaltiesFirstNft[from] = royaltiesFirstNft[from] + msg.value * (100 - mintCreateRoyalties - mintOwnRoyalties) / 100;
-        //给2级nft卖家的币 平台扣除1%
-       // royaltiesFirstNft[from] = royaltiesFirstNft[from] + msg.value * (100 - 1) / 100;
+        _safeTransfer(from, to, tokenId, "");
+        address receiver;
+        uint256 royaltyAmount;
+        (receiver,royaltyAmount) = royaltyInfo(tokenId,msg.value);
+        royalties[receiver] += royaltyAmount;
+        (bool hs, ) = payable(from).call{value: msg.value * 98 / 100 - royaltyAmount}("");
+        require(hs);
 
     }
-    // 设置tokenid的状态 为 可以出售
-    function startSale(uint256 tokenId, uint256 price) public {
-        // require(_isApprovedOrOwner(_msgSender(), tokenId), "ERC721: transfer caller is not owner nor approved");
-        require(_exists(tokenId), "ERC721Metadata: URI query for nonexistent token");
-        require(ownerOf(tokenId) == msg.sender, "not owner");
-        isSale[tokenId] = price;
+    function withdraw() public payable {
+        (bool hs, ) = payable(msg.sender).call{value: royalties[msg.sender]}("");
+        require(hs);
     }
-    // 设置tokenid的状态 为 不可出售
-    function endSale(uint256 tokenId) public {
-        // require(_isApprovedOrOwner(_msgSender(), tokenId), "ERC721: transfer caller is not owner nor approved");
-        require(_exists(tokenId), "ERC721Metadata: URI query for nonexistent token");
-        require(ownerOf(tokenId) == msg.sender, "not owner");
-        isSale[tokenId] = 0;
-    }
-
-    // 版税操作 未启用
-    function _dealRoyalties(uint256 tokenId) private{
-        address createAddress = MYIERC721(firstContractAddress).getTokenCreateAddress(tokenId);
-        address ownAddress = MYIERC721(firstContractAddress).owner(tokenId);
-        royaltiesFirstNft[createAddress] = royaltiesFirstNft[createAddress] + msg.value * mintCreateRoyalties / 100;
-        royaltiesFirstNft[ownAddress] = royaltiesFirstNft[ownAddress] + msg.value * mintOwnRoyalties / 100;
-    }
-
-    // 提取 先注释
-//    function withdraw() public payable onlyOwner {
-//        // 5%
-//        address to;
-//        (bool hs, ) = payable(to).call{value: address(this).balance * 5 / 100}("");
-//        require(hs);
-//        (bool os, ) = payable(to).call{value: address(this).balance}("");
-//        require(os);
-//    }
 }
